@@ -5,10 +5,12 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using prs.Models;
 
 namespace prs_server
 {
@@ -24,6 +26,13 @@ namespace prs_server
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connStr = @"server = localhost\sqlexpress;" +
+                "database = PrsDb3;" +
+                "trusted_connection = true;";
+            services.AddDbContext<PrsDbContext>(opt => opt.UseSqlServer(connStr));
+
+            services.AddCors();
+        
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_1);
         }
 
@@ -35,6 +44,7 @@ namespace prs_server
                 app.UseDeveloperExceptionPage();
             }
 
+            app.UseCors(opt => opt.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod().AllowCredentials());
             app.UseMvc();
         }
     }
