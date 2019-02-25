@@ -12,9 +12,6 @@ namespace prs.Models
         public int Id { get; set; }
         [Required]
         public int VendorId { get; set; }
-        [ForeignKey ("VendorId")]
-        [StringLength(30)]
-        [Required]
         public Vendor Vendor { get; set; }
         public string PartNumber { get; set; }
         [StringLength(30)]
