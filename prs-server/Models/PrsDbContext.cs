@@ -12,6 +12,7 @@ namespace prs.Models
         public DbSet<Vendor> Vendors { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<Request> Requests { get; set; }
+        public DbSet<RequestLine> RequestLine { get; set; }
 
         public PrsDbContext(DbContextOptions<PrsDbContext> context) : base(context)
         {

@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using prs.Models;
 
 namespace prs.Migrations
 {
     [DbContext(typeof(PrsDbContext))]
-    partial class PrsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190225192311_test new auth method2")]
+    partial class testnewauthmethod2
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -92,27 +94,6 @@ namespace prs.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Requests");
-                });
-
-            modelBuilder.Entity("prs.Models.RequestLine", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int>("ProductId");
-
-                    b.Property<int>("Quantity");
-
-                    b.Property<int>("RequestId");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.HasIndex("RequestId");
-
-                    b.ToTable("RequestLine");
                 });
 
             modelBuilder.Entity("prs.Models.User", b =>
@@ -214,19 +195,6 @@ namespace prs.Migrations
                     b.HasOne("prs.Models.User", "User")
                         .WithMany()
                         .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade);
-                });
-
-            modelBuilder.Entity("prs.Models.RequestLine", b =>
-                {
-                    b.HasOne("prs.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade);
-
-                    b.HasOne("prs.Models.Request", "Request")
-                        .WithMany()
-                        .HasForeignKey("RequestId")
                         .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
