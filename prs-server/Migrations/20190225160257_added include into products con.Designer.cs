@@ -2,15 +2,17 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using prs.Models;
 
 namespace prs.Migrations
 {
     [DbContext(typeof(PrsDbContext))]
-    partial class PrsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20190225160257_added include into products con")]
+    partial class addedincludeintoproductscon
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -30,7 +32,9 @@ namespace prs.Migrations
                         .IsRequired()
                         .HasMaxLength(30);
 
-                    b.Property<string>("PartNumber");
+                    b.Property<string>("PartNumber")
+                        .IsRequired()
+                        .HasMaxLength(30);
 
                     b.Property<string>("PhotoPath")
                         .HasMaxLength(255);
@@ -47,10 +51,7 @@ namespace prs.Migrations
                     b.HasKey("Id");
 
                     b.HasIndex("PartNumber")
-                        .IsUnique()
-                        .HasFilter("[PartNumber] IS NOT NULL");
-
-                    b.HasIndex("VendorId");
+                        .IsUnique();
 
                     b.ToTable("Products");
                 });
@@ -139,14 +140,6 @@ namespace prs.Migrations
                         .IsUnique();
 
                     b.ToTable("Vendors");
-                });
-
-            modelBuilder.Entity("prs.Models.Product", b =>
-                {
-                    b.HasOne("prs.Models.Vendor", "Vendor")
-                        .WithMany()
-                        .HasForeignKey("VendorId")
-                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }
