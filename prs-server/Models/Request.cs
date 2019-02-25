@@ -13,7 +13,7 @@ namespace prs.Models
         [Required]
         public int UserId { get; set; }
         public virtual User User { get; set; }
-        public IList<RequestLine> RequestLines { get; set; }
+        public virtual IList<RequestLine> RequestLines { get; set; }
         [StringLength(80)]
         public string Description { get; set; }
         [StringLength(80)]
