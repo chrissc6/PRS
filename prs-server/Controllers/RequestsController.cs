@@ -24,20 +24,20 @@ namespace prs_server.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequests()
         {
-            return await _context.Requests.Include(r => r.User).ToArrayAsync();
+            //return await _context.Requests.Include(r => r.User).ToArrayAsync();
 
-            //return await _context.Requests.ToListAsync();
+            return await _context.Requests.ToListAsync();
         }
 
         // GET: api/Requests/5
         [HttpGet("{id}")]
         public async Task<ActionResult<Request>> GetRequest(int id)
         {
-            var request = await _context.Requests
-                .Include(r => r.User)
-                .SingleOrDefaultAsync(r => r.Id == id);
+            //var request = await _context.Requests
+            //    .Include(r => r.User)
+            //    .SingleOrDefaultAsync(r => r.Id == id);
 
-            //var request = await _context.Requests.FindAsync(id);
+            var request = await _context.Requests.FindAsync(id);
 
             if (request == null)
             {

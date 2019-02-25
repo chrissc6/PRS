@@ -12,7 +12,8 @@ namespace prs.Models
         public int Id { get; set; }
         [Required]
         public int UserId { get; set; }
-        public User User { get; set; }
+        public virtual User User { get; set; }
+        public IList<RequestLine> RequestLines { get; set; }
         [StringLength(80)]
         public string Description { get; set; }
         [StringLength(80)]
@@ -21,10 +22,8 @@ namespace prs.Models
         public string RejectionReason { get; set; }
         [StringLength(30)]
         public string DeliveryMode { get; set; }
-        [Required]
-        public DateTime ReviewDate { get; set; }
+        public DateTime? ReviewDate { get; set; }
         [StringLength(10)]
-        [Required]
         public string Status { get; set; }
         [Required]
         [Column(TypeName = "decimal(12,2)")]

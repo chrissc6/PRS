@@ -12,7 +12,7 @@ namespace prs.Models
         public int Id { get; set; }
         [Required]
         public int VendorId { get; set; }
-        public Vendor Vendor { get; set; }
+        public virtual Vendor Vendor { get; set; }
         public string PartNumber { get; set; }
         [StringLength(30)]
         [Required]
