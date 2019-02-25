@@ -10,6 +10,7 @@ namespace prs.Models
     {
         public DbSet<User> Users { get; set; }
         public DbSet<Vendor> Vendors { get; set; }
+        public DbSet<Product> Products { get; set; }
 
         public PrsDbContext(DbContextOptions<PrsDbContext> context) : base(context)
         {
@@ -24,6 +25,10 @@ namespace prs.Models
 
             builder.Entity<Vendor>()
                 .HasIndex(v => v.Code)
+                .IsUnique();
+
+            builder.Entity<Product>()
+                .HasIndex(p => p.PartNumber)
                 .IsUnique();
         }
 
