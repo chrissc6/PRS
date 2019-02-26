@@ -22,12 +22,12 @@ namespace prs.Models
         public string RejectionReason { get; set; }
         [StringLength(30)]
         public string DeliveryMode { get; set; }
-        public DateTime? ReviewDate { get; set; }
+        public DateTime? SubmittedDate { get; set; }
         [StringLength(10)]
-        public string Status { get; set; }
+        public string Status { get; set; } = "NEW";
         [Required]
         [Column(TypeName = "decimal(12,2)")]
-        public decimal Total { get; set; }
+        public decimal Total { get; set; } = 0;
         public bool Active { get; set; } = true;
 
         public Request()

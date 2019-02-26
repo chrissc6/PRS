@@ -32,6 +32,7 @@ namespace prs_server.Controllers
         public async Task<ActionResult<RequestLine>> GetRequestLine(int id)
         {
             var requestLine = await _context.RequestLine.FindAsync(id);
+            
 
             if (requestLine == null)
             {
@@ -45,16 +46,19 @@ namespace prs_server.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutRequestLine(int id, RequestLine requestLine)
         {
+
             if (id != requestLine.Id)
             {
                 return BadRequest();
             }
 
             _context.Entry(requestLine).State = EntityState.Modified;
+            
 
             try
             {
                 await _context.SaveChangesAsync();
+                RecalculateTotal(requestLine.RequestId);
             }
             catch (DbUpdateConcurrencyException)
             {
@@ -76,7 +80,9 @@ namespace prs_server.Controllers
         public async Task<ActionResult<RequestLine>> PostRequestLine(RequestLine requestLine)
         {
             _context.RequestLine.Add(requestLine);
+            
             await _context.SaveChangesAsync();
+            RecalculateTotal(requestLine.Id);
 
             return CreatedAtAction("GetRequestLine", new { id = requestLine.Id }, requestLine);
         }
@@ -93,6 +99,7 @@ namespace prs_server.Controllers
 
             _context.RequestLine.Remove(requestLine);
             await _context.SaveChangesAsync();
+            RecalculateTotal(requestLine.Id);
 
             return requestLine;
         }
@@ -100,6 +107,35 @@ namespace prs_server.Controllers
         private bool RequestLineExists(int id)
         {
             return _context.RequestLine.Any(e => e.Id == id);
+        }
+
+        public bool RecalculateTotal(int id)
+        {
+            var request = _context.Requests.Find(id);
+            if(request == null)
+            {
+                return false;
+            }
+            var lines = _context.RequestLine
+                                .Include(l => l.Product)
+                                .Where(l => l.RequestId == id)
+                                .ToList();
+            //var lines = new List<RequestLine>();
+            //lines = _context.Requests.RequestLines
+            var ototal = request.Total;
+            var total = lines.Sum(l => l.Quantity * l.Product.Price);
+            if(total != ototal)
+            {
+                request.Total = total;
+                _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return true;
+            }
+            
+            
         }
     }
 }
