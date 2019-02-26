@@ -42,6 +42,39 @@ namespace prs_server.Controllers
             return NoContent();
         }
 
+        //rejected button
+        [HttpPut("/api/Requests/Rejected/{id}")]
+        public async Task<IActionResult> PutReviewRejected(int id)
+        {
+            var request = await _context.Requests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            request.Status = "REJECTED";
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        //approved button
+        [HttpPut("/api/Requests/Approved/{id}")]
+        public async Task<IActionResult> PutRequestApproved(int id)
+        {
+            var request = await _context.Requests.FindAsync(id);
+
+            if (request == null)
+            {
+                return NotFound();
+            }
+
+            request.Status = "APPROVED";
+            await _context.SaveChangesAsync();
+            return NoContent();
+            
+        }
+
         // GET: api/Requests
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Request>>> GetRequests()

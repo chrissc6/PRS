@@ -116,24 +116,31 @@ namespace prs_server.Controllers
             {
                 return false;
             }
-            var lines = _context.RequestLine
-                                .Include(l => l.Product)
-                                .Where(l => l.RequestId == id)
-                                .ToList();
-            //var lines = new List<RequestLine>();
-            //lines = _context.Requests.RequestLines
-            var ototal = request.Total;
-            var total = lines.Sum(l => l.Quantity * l.Product.Price);
-            if(total != ototal)
-            {
-                request.Total = total;
-                _context.SaveChangesAsync();
-                return true;
-            }
-            else
-            {
-                return true;
-            }
+
+            request.Total = _context.RequestLine
+                            .Include(l => l.Product)
+                            .Where(l => l.RequestId == id)
+                            .Sum(l => l.Quantity * l.Product.Price);
+            _context.SaveChanges();
+            return true;
+
+            //this code does work
+            //var lines = _context.RequestLine
+            //                    .Include(l => l.Product)
+            //                    .Where(l => l.RequestId == id)
+            //                    .ToList();
+            //var ototal = request.Total;
+            //var total = lines.Sum(l => l.Quantity * l.Product.Price);
+            //if(total != ototal)
+            //{
+            //    request.Total = total;
+            //    _context.SaveChangesAsync();
+            //    return true;
+            //}
+            //else
+            //{
+            //    return true;
+            //}
             
             
         }
