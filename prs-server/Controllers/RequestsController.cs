@@ -162,5 +162,19 @@ namespace prs_server.Controllers
         {
             return _context.Requests.Any(e => e.Id == id);
         }
+
+        // GET: api/Requests/Review
+        [HttpGet("/api/Requests/Review")]
+        public async Task<ActionResult<IEnumerable<Request>>> GetRequestsReview()
+        {
+            //return await _context.Requests.Include(r => r.User).ToArrayAsync();
+
+            //return await _context.Requests.ToListAsync();
+
+            var request = await _context.Requests.Where(r => r.Status == "REVIEW").ToListAsync();
+
+            return request;
+        }
+
     }
 }
