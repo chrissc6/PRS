@@ -82,7 +82,7 @@ namespace prs_server.Controllers
             _context.RequestLine.Add(requestLine);
             
             await _context.SaveChangesAsync();
-            RecalculateTotal(requestLine.Id);
+            RecalculateTotal(requestLine.RequestId);
 
             return CreatedAtAction("GetRequestLine", new { id = requestLine.Id }, requestLine);
         }
@@ -99,7 +99,7 @@ namespace prs_server.Controllers
 
             _context.RequestLine.Remove(requestLine);
             await _context.SaveChangesAsync();
-            RecalculateTotal(requestLine.Id);
+            RecalculateTotal(requestLine.RequestId);
 
             return requestLine;
         }
